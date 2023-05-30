@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:deliciousfood_flutter/common/network/api.dart';
-import 'package:deliciousfood_flutter/common/network/interceptors.dart';
-import 'package:deliciousfood_flutter/common/network/response_model.dart';
+import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
 import 'package:dio/dio.dart';
 
-Client client = Client.manager;
+import 'api.dart';
+import 'interceptors.dart';
+
+final Client client = Client.manager;
 
 class Client {
   static Client manager = Client._();
@@ -20,7 +21,7 @@ class Client {
     _dio.interceptors.add(LogsInterceptors());
   }
 
-  Future<ResponseModel<Map<String, dynamic>>> fetch(String url,
+  Future<dynamic> fetch(String url,
       [String method = "GET", Map<String, dynamic>? parameter]) async {
     Response<dynamic>? result;
     if (method == "GET") {
@@ -34,8 +35,9 @@ class Client {
     } else {
       data = result.data;
     }
-    return ResponseModel.formJson(data);
+    return ResponseModel.formJson(data).data;
   }
 }
+
 // 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
 //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

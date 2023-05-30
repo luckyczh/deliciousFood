@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:deliciousfood_flutter/common/Config.dart';
-import 'package:deliciousfood_flutter/common/network/response_model.dart';
+import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
 import 'package:dio/dio.dart';
 
 class LogsInterceptors extends InterceptorsWrapper {
