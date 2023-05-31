@@ -39,5 +39,4 @@ class Client {
   }
 }
 
-// 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
-//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
+// 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
