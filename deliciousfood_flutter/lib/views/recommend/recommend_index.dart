@@ -1,7 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
-import 'package:deliciousfood_flutter/views/recommend/recommend_appbar.dart';
-import 'package:deliciousfood_flutter/views/recommend/recommend_banner.dart';
-import 'package:deliciousfood_flutter/views/recommend/recommend_jieqi.dart';
+import 'package:deliciousfood_flutter/views/recommend/widget/recommend_appbar.dart';
+import 'package:deliciousfood_flutter/views/recommend/widget/recommend_banner.dart';
+import 'package:deliciousfood_flutter/views/recommend/widget/recommend_hotrecipe.dart';
+import 'package:deliciousfood_flutter/views/recommend/widget/recommend_jieqi.dart';
 import 'package:flutter/material.dart';
 
 class RecommendIndexWidget extends StatefulWidget {
@@ -21,7 +22,7 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
               padding: const EdgeInsets.only(top: 10),
               child: CustomScrollView(
                 shrinkWrap: true,
-                slivers: [_bannerSliver(), _jieqiSliver()],
+                slivers: [_bannerSliver(), _jieqiSliver(), _hotvideoSliver()],
               ),
             )));
   }
@@ -45,6 +46,10 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
   }
 
   Widget _jieqiSliver() {
-    return SliverToBoxAdapter(child: RecommendJieQi());
+    return const SliverToBoxAdapter(child: RecommendJieQi());
+  }
+
+  Widget _hotvideoSliver() {
+    return const SliverToBoxAdapter(child: RecommendHotRecipe());
   }
 }
