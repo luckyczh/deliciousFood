@@ -1,6 +1,3 @@
-import 'package:deliciousfood_flutter/models/home/home_recommend_banner_model.dart';
-import 'package:deliciousfood_flutter/models/home/home_recommend_sancan_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RecommendBanner extends StatefulWidget {
@@ -14,7 +11,7 @@ class _RecommendBannerState extends State<RecommendBanner> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           Row(

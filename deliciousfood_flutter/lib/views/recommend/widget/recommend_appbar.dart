@@ -25,6 +25,10 @@ class RecommendAppbar extends StatelessWidget implements PreferredSizeWidget {
                   borderRadius: BorderRadius.circular(22)),
               child: TextButton(
                   onPressed: () {},
+                  style: const ButtonStyle(
+                      splashFactory: NoSplash.splashFactory,
+                      overlayColor:
+                          MaterialStatePropertyAll(Colors.transparent)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
