@@ -1,4 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:deliciousfood_flutter/common/network/base/client.dart';
+import 'package:deliciousfood_flutter/common/network/extension/home_client.dart';
+import 'package:deliciousfood_flutter/models/home/home_recommend_model.dart';
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_appbar.dart';
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_banner.dart';
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_feedrecipe.dart';
@@ -15,48 +18,71 @@ class RecommendIndexWidget extends StatefulWidget {
 }
 
 class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
-  final RefreshController _refreshController = RefreshController();
+  late RefreshController _refreshController;
 
-  void _onRefresh() async {}
+  HomeRecommendModel? sancanModel;
+  HomeRecommendModel? jieqiModel;
+  HomeRecommendModel? hotRecipeModel;
 
   void _onLoading() async {}
+
+  void _getRecommendData() async {
+    client.getHomeRecommendData().then((value) {
+      sancanModel = value.firstWhere((element) => element.type == "2");
+      jieqiModel = value.firstWhere((element) => element.type == "11");
+      hotRecipeModel = value.firstWhere((element) => element.type == "9");
+      setState(() {});
+      _refreshController.loadComplete();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshController = RefreshController();
+    _getRecommendData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
           appBar: const RecommendAppbar(),
-          body: SmartRefresher(
-            controller: _refreshController,
-            enablePullDown: true,
-            enablePullUp: true,
-            header: const WaterDropHeader(),
-            footer: const ClassicFooter(),
-            onLoading: _onLoading,
-            onRefresh: _onRefresh,
-            child: CustomScrollView(
-              shrinkWrap: true,
-              slivers: [
-                const SliverPadding(padding: EdgeInsets.only(top: 20)),
-                _bannerSliver(),
-                _jieqiSliver(),
-                _hotvideoSliver(),
-                _feedRecipeSliver()
-              ],
-            ),
-          )),
+          body: sancanModel == null
+              ? _loadingWidget()
+              : SmartRefresher(
+                  controller: _refreshController,
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  header: const WaterDropHeader(),
+                  footer: const ClassicFooter(),
+                  onLoading: _onLoading,
+                  onRefresh: _getRecommendData,
+                  child: CustomScrollView(
+                    shrinkWrap: true,
+                    slivers: [
+                      const SliverPadding(padding: EdgeInsets.only(top: 20)),
+                      _bannerSliver(),
+                      _jieqiSliver(),
+                      _hotvideoSliver(),
+                      _feedRecipeSliver()
+                    ],
+                  ),
+                )),
     );
   }
 
   Widget _bannerSliver() {
     return SliverToBoxAdapter(
       child: SizedBox(
-          height: 434,
+          height: 444,
           child: Swiper(
-            itemCount: 3,
+            itemCount: sancanModel?.sancan?.length ?? 0,
             outer: true,
             itemBuilder: (context, index) {
-              return const RecommendBanner();
+              return RecommendBanner(
+                model: sancanModel?.sancan?[index],
+              );
             },
             pagination: SwiperPagination(
               builder: DotSwiperPaginationBuilder(
@@ -67,7 +93,10 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
   }
 
   Widget _jieqiSliver() {
-    return const SliverToBoxAdapter(child: RecommendJieQi());
+    return SliverToBoxAdapter(
+        child: RecommendJieQi(
+      model: jieqiModel?.jieqiSc,
+    ));
   }
 
   Widget _hotvideoSliver() {
@@ -83,6 +112,12 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
       itemBuilder: (context, index) {
         return const RecommendFeedRecipe();
       },
+    );
+  }
+
+  Widget _loadingWidget() {
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 }

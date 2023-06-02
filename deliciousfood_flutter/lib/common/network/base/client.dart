@@ -10,11 +10,17 @@ final Client client = Client.manager;
 
 class Client {
   static Client manager = Client._();
-  final Dio _dio = Dio(BaseOptions(
-      baseUrl: Api.baseUrl,
-      connectTimeout: const Duration(minutes: 1),
-      receiveTimeout: const Duration(minutes: 1),
-      contentType: "application/json"));
+  final Dio _dio = Dio(
+    BaseOptions(
+        baseUrl: Api.baseUrl,
+        headers: {
+          "User-Agent":
+              "model:phone;Version:meishij8.2.5;udid:485f21f799a5699cb75bb3b182c8b5d3;free:1;sInch:{828, 1792};sversion:16.4.1;channel:appstore;idfa:"
+        },
+        connectTimeout: const Duration(minutes: 1),
+        receiveTimeout: const Duration(minutes: 1),
+        contentType: "application/json"),
+  );
 
   Client._() {
     _dio.interceptors.add(LogInterceptor());

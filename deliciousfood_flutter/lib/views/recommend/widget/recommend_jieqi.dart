@@ -1,8 +1,10 @@
+import 'package:deliciousfood_flutter/common/widgets/cached_image.dart';
+import 'package:deliciousfood_flutter/models/home/home_recommend_jieqisc_model.dart';
 import 'package:flutter/material.dart';
 
 class RecommendJieQi extends StatefulWidget {
-  const RecommendJieQi({super.key});
-
+  const RecommendJieQi({super.key, this.model});
+  final HomeRecommendJieqiscModel? model;
   @override
   State<RecommendJieQi> createState() => _RecommendJieQiState();
 }
@@ -127,9 +129,9 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    const Text(
-                      "小满",
-                      style: TextStyle(
+                    Text(
+                      widget.model?.jqTitle ?? "",
+                      style: const TextStyle(
                           color: Colors.black,
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
@@ -137,9 +139,9 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
-                      "5月21日 - 6月5日",
-                      style: TextStyle(
+                    Text(
+                      widget.model?.jqTime ?? "",
+                      style: const TextStyle(
                           color: Color.fromARGB(255, 206, 199, 199),
                           fontSize: 14,
                           fontWeight: FontWeight.normal),
@@ -149,13 +151,7 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                     ),
                     Wrap(
                         spacing: 10,
-                        children: [
-                          "皇冠",
-                          "蒜苔",
-                          "苦瓜",
-                          "薏米",
-                          "冬瓜",
-                        ]
+                        children: (widget.model?.scList ?? [])
                             .map((e) => Container(
                                   padding:
                                       const EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -177,7 +173,7 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                     GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: 4,
+                      itemCount: widget.model?.jqTips?.length ?? 0,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
@@ -191,14 +187,14 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                           decoration: BoxDecoration(
                               color: cardColors[index],
                               borderRadius: BorderRadius.circular(6)),
-                          child: const Row(
+                          child: Row(
                             children: [
                               Expanded(
                                   child: Text(
-                                "小满尝三鲜：黄瓜、蒜苔和樱桃",
-                                style: TextStyle(color: Colors.black87),
+                                widget.model?.jqTips?[index] ?? "",
+                                style: const TextStyle(color: Colors.black87),
                               )),
-                              Icon(Icons.arrow_forward_ios,
+                              const Icon(Icons.arrow_forward_ios,
                                   size: 14, color: Colors.black87)
                             ],
                           ),
@@ -211,10 +207,8 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                     InkWell(
                         child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        "https://st-cn.meishi.cc/p2/20230215/20230215103438_468.jpg",
-                        fit: BoxFit.fitWidth,
-                      ),
+                      child: netWorkImage(widget.model?.banner?.img ?? "",
+                          fit: BoxFit.fitWidth),
                     ))
                   ],
                 ),
