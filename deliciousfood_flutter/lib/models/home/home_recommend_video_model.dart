@@ -47,8 +47,6 @@ class HomeRecommendVideoInfoModel {
 
 @JsonSerializable()
 class HomeRecommendVideoModel {
-  num? height;
-
   String? img;
 
   @JsonKey(name: 'img_test')
@@ -56,15 +54,10 @@ class HomeRecommendVideoModel {
 
   @JsonKey(name: 'vendor_video')
   String? vendorVideo;
-
-  num? width;
-
   HomeRecommendVideoModel(
-    this.height,
     this.img,
     this.imgTest,
     this.vendorVideo,
-    this.width,
   );
 
   factory HomeRecommendVideoModel.fromJson(Map<String, dynamic> srcJson) =>

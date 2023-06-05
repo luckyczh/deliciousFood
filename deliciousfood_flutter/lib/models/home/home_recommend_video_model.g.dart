@@ -41,21 +41,17 @@ Map<String, dynamic> _$HomeRecommendVideoInfoModelToJson(
 HomeRecommendVideoModel _$HomeRecommendVideoModelFromJson(
         Map<String, dynamic> json) =>
     HomeRecommendVideoModel(
-      json['height'] as num?,
       json['img'] as String?,
       json['img_test'] as String?,
       json['vendor_video'] as String?,
-      json['width'] as num?,
     );
 
 Map<String, dynamic> _$HomeRecommendVideoModelToJson(
         HomeRecommendVideoModel instance) =>
     <String, dynamic>{
-      'height': instance.height,
       'img': instance.img,
       'img_test': instance.imgTest,
       'vendor_video': instance.vendorVideo,
-      'width': instance.width,
     };
 
 HomeRecommendVideoInfoAuthorModel _$HomeRecommendVideoInfoAuthorModelFromJson(

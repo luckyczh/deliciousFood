@@ -12,7 +12,7 @@ HomeRecommendModel _$HomeRecommendModelFromJson(Map<String, dynamic> json) =>
           ?.map((e) =>
               HomeRecommendChannelModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json["jieqi_sc"] == null
+      json['jieqi_sc'] == null
           ? null
           : HomeRecommendJieqiscModel.fromJson(
               json['jieqi_sc'] as Map<String, dynamic>),

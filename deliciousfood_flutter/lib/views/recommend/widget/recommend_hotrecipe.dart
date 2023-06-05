@@ -1,7 +1,11 @@
+import 'package:deliciousfood_flutter/common/widgets/cached_image.dart';
+import 'package:deliciousfood_flutter/models/home/home_recommend_model.dart';
+import 'package:deliciousfood_flutter/models/home/home_recommend_video_model.dart';
 import 'package:flutter/material.dart';
 
 class RecommendHotRecipe extends StatefulWidget {
-  const RecommendHotRecipe({super.key});
+  final HomeRecommendModel model;
+  const RecommendHotRecipe({super.key, required this.model});
 
   @override
   State<RecommendHotRecipe> createState() => _RecommendHotRecipeState();
@@ -37,19 +41,18 @@ class _RecommendHotRecipeState extends State<RecommendHotRecipe> {
               );
             },
             scrollDirection: Axis.horizontal,
-            itemCount: 4,
+            itemCount: widget.model.videoInfo?.length ?? 0,
             itemBuilder: (context, index) {
-              return Container(
+              HomeRecommendVideoInfoModel? videoModel =
+                  widget.model.videoInfo?[index];
+              return SizedBox(
                 width: 140,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), color: Colors.red),
                 child: Stack(
                   children: [
-                    Image.network(
-                      "https://img2.baidu.com/it/u=3628561281,1488805814&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
-                      height: double.infinity,
-                      fit: BoxFit.fitHeight,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: netWorkImage(videoModel?.video?.img ?? "",
+                          height: double.infinity, fit: BoxFit.fitHeight),
                     ),
                     Positioned(
                         left: 10,
@@ -74,14 +77,12 @@ class _RecommendHotRecipeState extends State<RecommendHotRecipe> {
                         right: 0,
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          // decoration:
-                          // const BoxDecoration(color: Color(0x22000000)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "三汁焖锅",
-                                style: TextStyle(
+                              Text(
+                                videoModel?.title ?? "",
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16),
@@ -92,8 +93,8 @@ class _RecommendHotRecipeState extends State<RecommendHotRecipe> {
                               Row(
                                 children: [
                                   ClipOval(
-                                    child: Image.network(
-                                      "https://st-cn.meishi.cc/user/239/212/ns13115739_153509264588394.jpg",
+                                    child: netWorkImage(
+                                      videoModel?.author?.avatarUrl ?? "",
                                       height: 20,
                                       width: 20,
                                     ),
@@ -101,13 +102,15 @@ class _RecommendHotRecipeState extends State<RecommendHotRecipe> {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  const Text(
-                                    "多味小厨房",
-                                    style: TextStyle(
+                                  Expanded(
+                                      child: Text(
+                                    videoModel?.author?.nickname ?? "",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
-                                  )
+                                  ))
                                 ],
                               )
                             ],

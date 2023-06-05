@@ -28,7 +28,7 @@ class Client {
   }
 
   Future<dynamic> fetch(String url,
-      [String method = "GET", Map<String, dynamic>? parameter]) async {
+      {String method = "GET", Map<String, dynamic>? parameter}) async {
     Response<dynamic>? result;
     if (method == "GET") {
       result = await _dio.get(url, queryParameters: parameter);

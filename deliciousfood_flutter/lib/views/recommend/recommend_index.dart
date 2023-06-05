@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:deliciousfood_flutter/common/network/base/client.dart';
 import 'package:deliciousfood_flutter/common/network/extension/home_client.dart';
+import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_recommend_model.dart';
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_appbar.dart';
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_banner.dart';
@@ -17,22 +18,52 @@ class RecommendIndexWidget extends StatefulWidget {
   State<RecommendIndexWidget> createState() => _RecommendIndexWidgetState();
 }
 
-class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
+class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
+    with AutomaticKeepAliveClientMixin {
   late RefreshController _refreshController;
-
+  int page = 1;
   HomeRecommendModel? sancanModel;
   HomeRecommendModel? jieqiModel;
   HomeRecommendModel? hotRecipeModel;
+  late List<HomeFeedModel> list;
 
-  void _onLoading() async {}
+  void _onRefresh() async {
+    page = 1;
+    _getFeedData();
+    _getRecommendData();
+  }
+
+  void _onLoading() async {
+    page += 1;
+    _getFeedData();
+  }
 
   void _getRecommendData() async {
     client.getHomeRecommendData().then((value) {
-      sancanModel = value.firstWhere((element) => element.type == "2");
-      jieqiModel = value.firstWhere((element) => element.type == "11");
-      hotRecipeModel = value.firstWhere((element) => element.type == "9");
+      try {
+        sancanModel = value.firstWhere((element) => element.type == "2");
+        jieqiModel = value.firstWhere((element) => element.type == "11");
+        hotRecipeModel = value.firstWhere((element) => element.type == "9");
+      } finally {
+        _refreshController.refreshCompleted();
+        setState(() {});
+      }
+    });
+  }
+
+  void _getFeedData() async {
+    client.getHomeFeedData(page: page).then((value) {
+      final tmpValue = List.from(value);
+      if (page == 1) {
+        list.clear();
+      }
+      value.removeWhere((element) => element.type != "1");
+      list.addAll(value);
+      _refreshController.refreshCompleted();
+      if (tmpValue.length < 24) {
+        _refreshController.loadNoData();
+      }
       setState(() {});
-      _refreshController.loadComplete();
     });
   }
 
@@ -40,11 +71,14 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
   void initState() {
     super.initState();
     _refreshController = RefreshController();
+    list = [];
     _getRecommendData();
+    _getFeedData();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SafeArea(
       child: Scaffold(
           appBar: const RecommendAppbar(),
@@ -57,7 +91,7 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
                   header: const WaterDropHeader(),
                   footer: const ClassicFooter(),
                   onLoading: _onLoading,
-                  onRefresh: _getRecommendData,
+                  onRefresh: _onRefresh,
                   child: CustomScrollView(
                     shrinkWrap: true,
                     slivers: [
@@ -74,33 +108,42 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
 
   Widget _bannerSliver() {
     return SliverToBoxAdapter(
-      child: SizedBox(
-          height: 444,
-          child: Swiper(
-            itemCount: sancanModel?.sancan?.length ?? 0,
-            outer: true,
-            itemBuilder: (context, index) {
-              return RecommendBanner(
-                model: sancanModel?.sancan?[index],
-              );
-            },
-            pagination: SwiperPagination(
-              builder: DotSwiperPaginationBuilder(
-                  activeColor: Colors.red, color: Colors.grey.shade400),
-            ),
-          )),
+      child: sancanModel == null
+          ? const SizedBox()
+          : SizedBox(
+              height: 444,
+              child: Swiper(
+                itemCount: sancanModel?.sancan?.length ?? 0,
+                outer: true,
+                itemBuilder: (context, index) {
+                  return RecommendBanner(
+                    model: sancanModel!.sancan?[index],
+                  );
+                },
+                pagination: SwiperPagination(
+                  builder: DotSwiperPaginationBuilder(
+                      activeColor: Colors.red, color: Colors.grey.shade400),
+                ),
+              )),
     );
   }
 
   Widget _jieqiSliver() {
     return SliverToBoxAdapter(
-        child: RecommendJieQi(
-      model: jieqiModel?.jieqiSc,
-    ));
+        child: jieqiModel == null
+            ? const SizedBox()
+            : RecommendJieQi(
+                model: jieqiModel?.jieqiSc,
+              ));
   }
 
   Widget _hotvideoSliver() {
-    return const SliverToBoxAdapter(child: RecommendHotRecipe());
+    return SliverToBoxAdapter(
+        child: hotRecipeModel == null
+            ? const SizedBox()
+            : RecommendHotRecipe(
+                model: hotRecipeModel!,
+              ));
   }
 
   Widget _feedRecipeSliver() {
@@ -108,9 +151,11 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
       separatorBuilder: (context, index) => const SizedBox(
         height: 20,
       ),
-      itemCount: 10,
+      itemCount: list.length,
       itemBuilder: (context, index) {
-        return const RecommendFeedRecipe();
+        return RecommendFeedRecipe(
+          model: list[index].recipe!,
+        );
       },
     );
   }
@@ -120,4 +165,7 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget> {
       child: CircularProgressIndicator(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
