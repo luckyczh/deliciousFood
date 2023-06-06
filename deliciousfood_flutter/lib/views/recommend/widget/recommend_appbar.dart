@@ -7,7 +7,7 @@ class RecommendAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
         child: Row(
           children: [
             Image.asset(

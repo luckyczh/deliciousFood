@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
           title: '食物杰',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+              colorScheme: ColorScheme.fromSeed(
+                  seedColor: Colors.white, background: Colors.white),
               useMaterial3: true,
               highlightColor: Colors.transparent,
               focusColor: Colors.transparent,

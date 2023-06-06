@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "deliciousfood_flutter",
+            "name": "美食杰",
             "request": "launch",
             "type": "dart",
             "args": ["--enable-software-rendering"]

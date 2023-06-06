@@ -76,6 +76,14 @@ class _RecommendHotRecipeState extends State<RecommendHotRecipe> {
                         left: 0,
                         right: 0,
                         child: Container(
+                          decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                Color(0x00000000),
+                                Color(0xaa000000)
+                              ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter)),
                           padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

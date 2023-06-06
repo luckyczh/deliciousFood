@@ -95,7 +95,6 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
                   child: CustomScrollView(
                     shrinkWrap: true,
                     slivers: [
-                      const SliverPadding(padding: EdgeInsets.only(top: 20)),
                       _bannerSliver(),
                       _jieqiSliver(),
                       _hotvideoSliver(),

@@ -20,7 +20,7 @@ class _RecommendFeedRecipeState extends State<RecommendFeedRecipe> {
           ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: netWorkImage(widget.model.img ?? "",
-                  width: 120, height: 120)),
+                  width: 150, height: 150)),
           const SizedBox(
             width: 10,
           ),
@@ -33,7 +33,7 @@ class _RecommendFeedRecipeState extends State<RecommendFeedRecipe> {
               ),
               Text(
                 widget.model.title ?? "",
-                style: const TextStyle(color: Colors.black, fontSize: 16),
+                style: const TextStyle(color: Colors.black, fontSize: 18),
               ),
               _descWidget(),
               const SizedBox(

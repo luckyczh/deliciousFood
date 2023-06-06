@@ -8,10 +8,12 @@ Widget netWorkImage(String imageUrl,
     height: height,
     width: width,
     fit: fit,
-    placeholder: (context, url) {
-      return Container(
-        decoration: const BoxDecoration(color: Colors.grey),
-        child: const CircularProgressIndicator(),
+    progressIndicatorBuilder: (context, url, progress) {
+      return Center(
+        child: CircularProgressIndicator(
+            backgroundColor: Colors.grey,
+            value: progress.progress,
+            valueColor: const AlwaysStoppedAnimation(Colors.pink)),
       );
     },
     errorWidget: (context, url, error) {

@@ -43,6 +43,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   cached_network_image: ^3.2.3
   webview_flutter: ^4.2.1
+  shared_preferences: ^2.1.1
 
 
 dev_dependencies:

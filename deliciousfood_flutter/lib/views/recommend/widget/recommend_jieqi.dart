@@ -1,4 +1,5 @@
 import 'package:deliciousfood_flutter/common/widgets/cached_image.dart';
+import 'package:deliciousfood_flutter/common/widgets/df_webview.dart';
 import 'package:deliciousfood_flutter/models/home/home_recommend_jieqisc_model.dart';
 import 'package:flutter/material.dart';
 
@@ -120,7 +121,7 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
               Positioned(
                 top: 0,
                 right: 0,
-                child: Image.network(
+                child: netWorkImage(
                   "https://st-cn.meishi.cc/p2/20221010/20221010161351_917.jpg",
                   height: 80,
                 ),
@@ -181,22 +182,33 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                               childAspectRatio: 2.5,
                               crossAxisSpacing: 10),
                       itemBuilder: (context, index) {
-                        return Container(
-                          clipBehavior: Clip.hardEdge,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: cardColors[index],
-                              borderRadius: BorderRadius.circular(6)),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                widget.model?.jqTips?[index] ?? "",
-                                style: const TextStyle(color: Colors.black87),
-                              )),
-                              const Icon(Icons.arrow_forward_ios,
-                                  size: 14, color: Colors.black87)
-                            ],
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return DFWebView(
+                                    url:
+                                        "https://m.meishi.cc/huodong/zt_detail.php?id=${widget.model?.ztId ?? ""}");
+                              },
+                            ));
+                          },
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: cardColors[index],
+                                borderRadius: BorderRadius.circular(6)),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  widget.model?.jqTips?[index] ?? "",
+                                  style: const TextStyle(color: Colors.black87),
+                                )),
+                                const Icon(Icons.arrow_forward_ios,
+                                    size: 14, color: Colors.black87)
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -205,11 +217,20 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                       height: 20,
                     ),
                     InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return DFWebView(
+                                  url:
+                                      "https://m.meishi.cc/huodong/zt_detail.php?id=${widget.model?.ztId ?? ""}");
+                            },
+                          ));
+                        },
                         child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: netWorkImage(widget.model?.banner?.img ?? "",
-                          fit: BoxFit.fitWidth),
-                    ))
+                          borderRadius: BorderRadius.circular(10),
+                          child: netWorkImage(widget.model?.banner?.img ?? "",
+                              fit: BoxFit.fitWidth),
+                        ))
                   ],
                 ),
               ),
