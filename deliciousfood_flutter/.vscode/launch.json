@@ -8,7 +8,6 @@
             "name": "美食杰",
             "request": "launch",
             "type": "dart",
-            "args": ["--enable-software-rendering"]
         },
         {
             "name": "deliciousfood_flutter (profile mode)",

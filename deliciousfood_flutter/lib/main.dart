@@ -24,7 +24,10 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
               highlightColor: Colors.transparent,
               focusColor: Colors.transparent,
-              splashColor: Colors.transparent),
+              splashColor: Colors.transparent,
+              appBarTheme: const AppBarTheme(
+                color: Colors.white,
+              )),
           home: const TabIndexWidget(),
         );
       },

@@ -1,7 +1,8 @@
-import 'package:deliciousfood_flutter/common/widgets/cached_image.dart';
 import 'package:deliciousfood_flutter/models/home/home_recommend_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_recommend_video_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/utils/utils.dart';
 
 class RecommendHotRecipe extends StatefulWidget {
   final HomeRecommendModel model;
@@ -51,8 +52,10 @@ class _RecommendHotRecipeState extends State<RecommendHotRecipe> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: netWorkImage(videoModel?.video?.img ?? "",
-                          height: double.infinity, fit: BoxFit.fitHeight),
+                      clipBehavior: Clip.hardEdge,
+                      child: netWorkImage(
+                        videoModel?.video?.img ?? "",
+                      ),
                     ),
                     Positioned(
                         left: 10,
@@ -74,17 +77,22 @@ class _RecommendHotRecipeState extends State<RecommendHotRecipe> {
                     Positioned(
                         bottom: 0,
                         left: 0,
-                        right: 0,
+                        right: 3,
+
+                        /// 不知道为啥 阴影会超出3px
                         child: Container(
+                          padding: const EdgeInsets.all(10),
                           decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)),
                               gradient: LinearGradient(
                                   colors: [
-                                Color(0x00000000),
-                                Color(0xaa000000)
-                              ],
+                                    Color(0x00000000),
+                                    Color(0xaa000000)
+                                  ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter)),
-                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

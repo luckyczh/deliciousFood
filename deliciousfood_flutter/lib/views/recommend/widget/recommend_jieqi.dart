@@ -1,7 +1,8 @@
-import 'package:deliciousfood_flutter/common/widgets/cached_image.dart';
 import 'package:deliciousfood_flutter/common/widgets/df_webview.dart';
 import 'package:deliciousfood_flutter/models/home/home_recommend_jieqisc_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/utils/utils.dart';
 
 class RecommendJieQi extends StatefulWidget {
   const RecommendJieQi({super.key, this.model});
@@ -49,9 +50,9 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(
-                color: Color(0x22DDDADA),
-                offset: Offset(10, 10),
-                blurRadius: 20)
+                color: Color.fromARGB(32, 70, 69, 69),
+                offset: Offset(0, 5),
+                blurRadius: 10)
           ]),
       child: Stack(
         children: [
@@ -92,7 +93,7 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
 
   Widget _topCard() {
     return Card(
-        shadowColor: const Color(0x22DDDADA),
+        shadowColor: const Color.fromARGB(33, 182, 180, 180),
         clipBehavior: Clip.hardEdge,
         elevation: 4,
         margin: const EdgeInsets.all(20),
@@ -122,7 +123,7 @@ class _RecommendJieQiState extends State<RecommendJieQi> {
                 top: 0,
                 right: 0,
                 child: netWorkImage(
-                  "https://st-cn.meishi.cc/p2/20221010/20221010161351_917.jpg",
+                  widget.model?.cornerImg ?? "",
                   height: 80,
                 ),
               ),

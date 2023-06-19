@@ -19,4 +19,10 @@ class Api {
 
   /// 菜谱详情推荐
   static const recipeDetailRecommed = "/searchnew/recipe_recommend";
+
+  /// 排行榜列表
+  static const rankList = "/reciperanking/list";
+
+  /// 吃什么列表
+  static const eatList = "/scenenew/index_new";
 }

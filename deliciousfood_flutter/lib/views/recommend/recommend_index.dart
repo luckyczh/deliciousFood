@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:deliciousfood_flutter/common/network/base/client.dart';
 import 'package:deliciousfood_flutter/common/network/extension/home_client.dart';
+import 'package:deliciousfood_flutter/common/widgets/refresh_widget.dart';
 import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_recommend_model.dart';
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_appbar.dart';
@@ -9,7 +10,8 @@ import 'package:deliciousfood_flutter/views/recommend/widget/recommend_feedrecip
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_hotrecipe.dart';
 import 'package:deliciousfood_flutter/views/recommend/widget/recommend_jieqi.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../common/utils/utils.dart';
 
 class RecommendIndexWidget extends StatefulWidget {
   const RecommendIndexWidget({super.key});
@@ -20,22 +22,21 @@ class RecommendIndexWidget extends StatefulWidget {
 
 class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
     with AutomaticKeepAliveClientMixin {
-  late RefreshController _refreshController;
   int page = 1;
   HomeRecommendModel? sancanModel;
   HomeRecommendModel? jieqiModel;
   HomeRecommendModel? hotRecipeModel;
   late List<HomeFeedModel> list;
 
-  void _onRefresh() async {
+  _onRefresh(RefreshPageController? controller) async {
     page = 1;
-    _getFeedData();
+    _getFeedData(controller);
     _getRecommendData();
   }
 
-  void _onLoading() async {
+  _onLoading(RefreshPageController? controller) async {
     page += 1;
-    _getFeedData();
+    _getFeedData(controller);
   }
 
   void _getRecommendData() async {
@@ -45,13 +46,13 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
         jieqiModel = value.firstWhere((element) => element.type == "11");
         hotRecipeModel = value.firstWhere((element) => element.type == "9");
       } finally {
-        _refreshController.refreshCompleted();
         setState(() {});
       }
     });
   }
 
-  void _getFeedData() async {
+  void _getFeedData(RefreshPageController? controller) async {
+    int page = controller?.page ?? 1;
     client.getHomeFeedData(page: page).then((value) {
       final tmpValue = List.from(value);
       if (page == 1) {
@@ -59,9 +60,10 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
       }
       value.removeWhere((element) => element.type != "1");
       list.addAll(value);
-      _refreshController.refreshCompleted();
+      controller?.refreshCompleted();
+      controller?.loadComplete();
       if (tmpValue.length < 24) {
-        _refreshController.loadNoData();
+        controller?.loadNoData();
       }
       setState(() {});
     });
@@ -70,10 +72,9 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
   @override
   void initState() {
     super.initState();
-    _refreshController = RefreshController();
     list = [];
     _getRecommendData();
-    _getFeedData();
+    _getFeedData(null);
   }
 
   @override
@@ -83,15 +84,10 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
       child: Scaffold(
           appBar: const RecommendAppbar(),
           body: sancanModel == null
-              ? _loadingWidget()
-              : SmartRefresher(
-                  controller: _refreshController,
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  header: const WaterDropHeader(),
-                  footer: const ClassicFooter(),
-                  onLoading: _onLoading,
-                  onRefresh: _onRefresh,
+              ? loadingWidget()
+              : RefreshWidget(
+                  onLoading: (controller) => _onLoading(controller),
+                  onRefresh: (controller) => _onRefresh(controller),
                   child: CustomScrollView(
                     shrinkWrap: true,
                     slivers: [
@@ -156,12 +152,6 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
           model: list[index].recipe!,
         );
       },
-    );
-  }
-
-  Widget _loadingWidget() {
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 

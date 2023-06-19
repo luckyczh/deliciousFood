@@ -1,3 +1,5 @@
+import 'package:deliciousfood_flutter/models/category/category_model.dart';
+import 'package:deliciousfood_flutter/models/eat/eat_question_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
 
 import '../../../models/home/home_recommend_model.dart';
@@ -21,5 +23,27 @@ extension HomeClient on Client {
         .map((e) => HomeFeedModel.fromJson(e as Map<String, dynamic>))
         .toList();
     return list;
+  }
+
+  /// 获取排行榜列表
+  Future<List<HomeFeedModel>> getRankList({int page = 1}) async {
+    final result = await fetch(Api.rankList, parameter: {"page": page})
+        as Map<String, dynamic>;
+    final list = (result["items"] as List)
+        .map((e) => HomeFeedModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return list;
+  }
+
+  /// 菜谱分类
+  Future<List<CategoryModel>> getCategories() async {
+    final result = await fetch(Api.recipeCategory) as List;
+    return result.map((e) => CategoryModel.fromJson(e)).toList();
+  }
+
+  /// 吃什么列表
+  Future<List<EatQuestionModel>> getEatList() async {
+    final result = await fetch(Api.eatList) as List;
+    return result.map((e) => EatQuestionModel.fromJson(e)).toList();
   }
 }

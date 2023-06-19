@@ -1,6 +1,6 @@
-import 'package:deliciousfood_flutter/common/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../common/utils/utils.dart';
 import '../../../models/home/home_recommend_model.dart';
 import '../../../models/home/home_recommend_sancan_model.dart';
 

@@ -1,5 +1,8 @@
+import 'package:deliciousfood_flutter/views/recommend/category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../common/utils/utils.dart';
 
 class RecommendAppbar extends StatelessWidget implements PreferredSizeWidget {
   const RecommendAppbar({super.key});
@@ -45,10 +48,15 @@ class RecommendAppbar extends StatelessWidget implements PreferredSizeWidget {
             const SizedBox(
               width: 20,
             ),
-            Image.asset(
-              "resource/images/appbar_menu.png",
-              width: 25,
-            ),
+            GestureDetector(
+              child: Image.asset(
+                "resource/images/appbar_menu.png",
+                width: 25,
+              ),
+              onTap: () {
+                pushToPage(context, const CategoryPage());
+              },
+            )
           ],
         ));
   }

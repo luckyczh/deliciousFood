@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 
 import 'api.dart';
 import 'interceptors.dart';
@@ -23,6 +25,12 @@ class Client {
   );
 
   Client._() {
+    // (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+    //     (client) {
+    //   client.findProxy = (url) {
+    //     return "PROXY 10.98.7.25:8888";
+    //   };
+    // };
     _dio.interceptors.add(LogInterceptor());
     _dio.interceptors.add(LogsInterceptors());
   }
