@@ -1,4 +1,6 @@
+import 'package:deliciousfood_flutter/common/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DFWebView extends StatefulWidget {
@@ -12,6 +14,7 @@ class DFWebView extends StatefulWidget {
 
 class _DFWebViewState extends State<DFWebView> {
   late WebViewController _controller;
+  bool loadFinish = false;
   String title = "";
   @override
   void initState() {
@@ -21,6 +24,7 @@ class _DFWebViewState extends State<DFWebView> {
         onPageFinished: (url) {
           _controller.getTitle().then((value) {
             title = value ?? widget.title ?? "";
+            loadFinish = true;
             setState(() {});
           });
         },
@@ -32,10 +36,11 @@ class _DFWebViewState extends State<DFWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: WebViewWidget(controller: _controller),
-    );
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        body: loadFinish
+            ? WebViewWidget(controller: _controller)
+            : loadingWidget());
   }
 }

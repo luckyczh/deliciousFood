@@ -25,4 +25,11 @@ class Api {
 
   /// 吃什么列表
   static const eatList = "/scenenew/index_new";
+
+  /// 获取用户信息
+  static const personInfo = "/Personalnew/myHome";
+  /// 我的收藏
+  static const personFavoriteList = "/favnew/fav_recipe_list_7_1_1";
+  /// 最近浏览
+  static const personRecentList = "/Recentnew/recent_list_7_1_1";
 }

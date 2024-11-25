@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'api.dart';
 import 'interceptors.dart';
@@ -38,19 +36,39 @@ class Client {
   Future<dynamic> fetch(String url,
       {String method = "GET", Map<String, dynamic>? parameter}) async {
     Response<dynamic>? result;
-    if (method == "GET") {
-      result = await _dio.get(url, queryParameters: parameter);
-    } else {
-      result = await _dio.post(url, data: parameter);
+    try {
+      if (method == "GET") {
+        result = await _dio.get(url, queryParameters: parameter);
+      } else {
+        result = await _dio.post(url, data: parameter);
+      }
+      Map<String, dynamic> data = {};
+      if (result.data is String) {
+        data = json.decode(result.data);
+      } else {
+        data = result.data;
+      }
+      final res = ResponseModel.formJson(data);
+      if (res.code != '1' && res.code != '11') {
+        Fluttertoast.showToast(msg: res.msg);
+      } else {
+        return res.data;
+      }
+    } on DioError catch (e) {
+      if (e.response?.data is ResponseModel) {
+        final res = e.response?.data as ResponseModel;
+        Fluttertoast.showToast(msg: res.msg);
+        return res.data;
+      } else {
+        Fluttertoast.showToast(msg: e.error.toString());
+        return null;
+      }
     }
-    Map<String, dynamic> data = {};
-    if (result.data is String) {
-      data = json.decode(result.data);
-    } else {
-      data = result.data;
-    }
-    return ResponseModel.formJson(data).data;
+  }
+
+  Future<T?> getData<T>(String url,
+      {String method = "GET", Map<String, dynamic>? parameter}) async {
+    final result = fetch(url, method: method, parameter: parameter);
+    if (T.runtimeType == List) {}
   }
 }
-
-// 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

@@ -18,7 +18,7 @@ class LogsInterceptors extends InterceptorsWrapper {
                   ResponseCode.NETWORK_LOSE, Config.noNetworkMsg))));
     }
     options.queryParameters["format"] = "json";
-    options.queryParameters["token"] = "28136be722e8c9c85aad9aad0d9c735d";
+    options.queryParameters["token"] = "de8ebf6a52866b3bfe10a330af876504";
     super.onRequest(options, handler);
   }
 }

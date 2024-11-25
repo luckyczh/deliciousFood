@@ -1,6 +1,7 @@
 import 'package:deliciousfood_flutter/views/tab_index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder: (context, chil) {
         return MaterialApp(
+          builder: FToastBuilder(),
           title: '食物杰',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(

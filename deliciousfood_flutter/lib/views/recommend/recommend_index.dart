@@ -41,6 +41,9 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
 
   void _getRecommendData() async {
     client.getHomeRecommendData().then((value) {
+      if (value.isEmpty) {
+        return;
+      }
       try {
         sancanModel = value.firstWhere((element) => element.type == "2");
         jieqiModel = value.firstWhere((element) => element.type == "11");
