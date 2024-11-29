@@ -2,8 +2,6 @@ class Api {
   /// 服务器地址
   static const baseUrl = "https://newapi.meishi.cc";
 
-  static const token = "c6635b07ce533198967603d034f157ec";
-
   /// 首页推荐
   static const homeRecommend = "/indexnew/home_recommend_7_1_3";
 
