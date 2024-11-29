@@ -2,6 +2,8 @@ class Api {
   /// 服务器地址
   static const baseUrl = "https://newapi.meishi.cc";
 
+  static const token = "c6635b07ce533198967603d034f157ec";
+
   /// 首页推荐
   static const homeRecommend = "/indexnew/home_recommend_7_1_3";
 
@@ -28,8 +30,10 @@ class Api {
 
   /// 获取用户信息
   static const personInfo = "/Personalnew/myHome";
+
   /// 我的收藏
   static const personFavoriteList = "/favnew/fav_recipe_list_7_1_1";
+
   /// 最近浏览
   static const personRecentList = "/Recentnew/recent_list_7_1_1";
 }

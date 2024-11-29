@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:deliciousfood_flutter/models/category/category_model.dart';
 import 'package:deliciousfood_flutter/models/eat/eat_question_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
@@ -45,11 +47,12 @@ extension HomeClient on Client {
 
   /// 菜谱分类
   Future<List<CategoryModel>> getCategories() async {
-    final result = await fetch(Api.recipeCategory);
-    if (result == null) {
-      return [];
-    }
-    return (result as List).map((e) => CategoryModel.fromJson(e)).toList();
+   final result = await fetchList(
+      Api.recipeCategory,
+      transform: (result) {
+        return (result as List).map((e) => CategoryModel.fromJson(e)).toList();},
+    );
+    return result;
   }
 
   /// 吃什么列表

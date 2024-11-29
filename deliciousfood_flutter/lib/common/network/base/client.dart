@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
+import 'package:deliciousfood_flutter/models/category/category_model.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api.dart';
 import 'interceptors.dart';
@@ -36,12 +38,19 @@ class Client {
   Future<dynamic> fetch(String url,
       {String method = "GET", Map<String, dynamic>? parameter}) async {
     Response<dynamic>? result;
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token") ?? "";
+    if (token.isNotEmpty) {
+      parameter ??= {};
+      parameter["token"] = token;
+    }
     try {
       if (method == "GET") {
         result = await _dio.get(url, queryParameters: parameter);
       } else {
         result = await _dio.post(url, data: parameter);
       }
+
       Map<String, dynamic> data = {};
       if (result.data is String) {
         data = json.decode(result.data);
@@ -54,7 +63,7 @@ class Client {
       } else {
         return res.data;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response?.data is ResponseModel) {
         final res = e.response?.data as ResponseModel;
         Fluttertoast.showToast(msg: res.msg);
@@ -66,9 +75,19 @@ class Client {
     }
   }
 
-  Future<T?> getData<T>(String url,
-      {String method = "GET", Map<String, dynamic>? parameter}) async {
-    final result = fetch(url, method: method, parameter: parameter);
-    if (T.runtimeType == List) {}
+  Future<List<T>> fetchList<T>(String url,
+      {String method = "GET",
+      Map<String, dynamic>? parameter,
+      DataTransform<T>? transform}) async {
+    final result = await fetch(url, method: method, parameter: parameter);
+    if (result == null) {
+      return [];
+    }
+    if (transform == null) {
+      return result;
+    }
+    return transform(result);
   }
 }
+
+typedef DataTransform<T> = List<T> Function(dynamic);
