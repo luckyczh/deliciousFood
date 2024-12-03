@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
-import 'package:deliciousfood_flutter/models/category/category_model.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,12 +37,6 @@ class Client {
   Future<dynamic> fetch(String url,
       {String method = "GET", Map<String, dynamic>? parameter}) async {
     Response<dynamic>? result;
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("token") ?? "";
-    if (token.isNotEmpty) {
-      parameter ??= {};
-      parameter["token"] = token;
-    }
     try {
       if (method == "GET") {
         result = await _dio.get(url, queryParameters: parameter);
@@ -53,7 +46,11 @@ class Client {
 
       Map<String, dynamic> data = {};
       if (result.data is String) {
-        data = json.decode(result.data);
+        try {
+          data = jsonDecode(result.data);
+        } catch (e) {
+          return null;
+        }
       } else {
         data = result.data;
       }

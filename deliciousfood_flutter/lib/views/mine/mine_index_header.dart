@@ -58,7 +58,7 @@ class _MineIndexHeaderState extends State<MineIndexHeader> {
             left: 0,
             right: 0,
             bottom: 20,
-            child: _bottomWidget(['0', '0', '1', '0']))
+            child: _bottomWidget(['0', '0', '1', '0'])),
       ],
     );
   }

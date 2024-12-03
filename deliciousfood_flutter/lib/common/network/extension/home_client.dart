@@ -1,9 +1,7 @@
-import 'dart:math';
 
 import 'package:deliciousfood_flutter/models/category/category_model.dart';
 import 'package:deliciousfood_flutter/models/eat/eat_question_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
-import 'package:deliciousfood_flutter/models/mine/person_model.dart';
 
 import '../../../models/home/home_recommend_model.dart';
 import '../base/api.dart';
@@ -47,10 +45,11 @@ extension HomeClient on Client {
 
   /// 菜谱分类
   Future<List<CategoryModel>> getCategories() async {
-   final result = await fetchList(
+    final result = await fetchList(
       Api.recipeCategory,
       transform: (result) {
-        return (result as List).map((e) => CategoryModel.fromJson(e)).toList();},
+        return (result as List).map((e) => CategoryModel.fromJson(e)).toList();
+      },
     );
     return result;
   }
@@ -64,12 +63,4 @@ extension HomeClient on Client {
     return (result as List).map((e) => EatQuestionModel.fromJson(e)).toList();
   }
 
-  /// 用户信息
-  Future<PersonModel> getUerInfo() async {
-    final result = await fetch(Api.personInfo);
-    if (result == null) {
-      return PersonModel(null, null);
-    }
-    return PersonModel.fromJson(result);
-  }
 }

@@ -9,16 +9,16 @@ class LogsInterceptors extends InterceptorsWrapper {
       RequestOptions options, RequestInterceptorHandler handler) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      return handler.reject(DioError(
+      return handler.reject(DioException(
           requestOptions: options,
-          type: DioErrorType.unknown,
+          type: DioExceptionType.unknown,
           response: Response(
               requestOptions: options,
               data: ResponseModel(
                   ResponseCode.NETWORK_LOSE, Config.noNetworkMsg))));
     }
     options.queryParameters["format"] = "json";
-    options.queryParameters["token"] = "de8ebf6a52866b3bfe10a330af876504";
+    options.queryParameters["token"] = "beeb08d1ea97e11105ec47f20efdf8c9";
     super.onRequest(options, handler);
   }
 }

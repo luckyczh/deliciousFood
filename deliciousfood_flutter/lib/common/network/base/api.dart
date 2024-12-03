@@ -34,4 +34,7 @@ class Api {
 
   /// 最近浏览
   static const personRecentList = "/Recentnew/recent_list_7_1_1";
+
+  /// 删除浏览记录
+  static const deleteRecent = "/recentnew/delete_recent";
 }
