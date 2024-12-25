@@ -1,6 +1,5 @@
 import 'package:deliciousfood_flutter/common/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DFWebView extends StatefulWidget {

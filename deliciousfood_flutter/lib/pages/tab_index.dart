@@ -1,7 +1,7 @@
-import 'package:deliciousfood_flutter/views/eat/eat_index.dart';
-import 'package:deliciousfood_flutter/views/mine/mine_index.dart';
-import 'package:deliciousfood_flutter/views/rank/rank_index.dart';
-import 'package:deliciousfood_flutter/views/recommend/recommend_index.dart';
+import 'package:deliciousfood_flutter/pages/eat/eat_index.dart';
+import 'package:deliciousfood_flutter/pages/mine/mine_index.dart';
+import 'package:deliciousfood_flutter/pages/rank/rank_index.dart';
+import 'package:deliciousfood_flutter/pages/recommend/recommend_index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

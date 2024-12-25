@@ -33,9 +33,11 @@ extension UserClient on Client {
       Api.personRecentList,
       parameter: {"page": pageIndex, "per_page": 10},
       transform: (result) {
-        return (result["items"] as List)
-            .map((e) => HomeFeedModel.fromJson(e))
-            .toList();
+        var list = result["items"];
+        if (list == null) {
+          return List<HomeFeedModel>.empty();
+        }
+        return (list as List).map((e) => HomeFeedModel.fromJson(e)).toList();
       },
     );
     return result;

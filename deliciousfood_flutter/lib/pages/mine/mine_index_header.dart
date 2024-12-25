@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MineIndexHeader extends StatefulWidget {
-  final PersonModel model;
+  final PersonModel? model;
   const MineIndexHeader({super.key, required this.model});
 
   @override
@@ -39,7 +39,7 @@ class _MineIndexHeaderState extends State<MineIndexHeader> {
           left: 20,
           right: 150,
           child: Text(
-            "Hi,\n${widget.model.userInfo?.userName ?? ''}",
+            "Hi,\n${widget.model == null ? "请登录" : widget.model?.userInfo?.userName ?? ''}",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
           ),
         ),
@@ -51,8 +51,10 @@ class _MineIndexHeaderState extends State<MineIndexHeader> {
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(52)),
-              child: netWorkImage(widget.model.userInfo?.avatar,
-                  width: 100, height: 100, radius: 50)),
+              child: widget.model == null
+                  ? const SizedBox()
+                  : netWorkImage(widget.model?.userInfo?.avatar,
+                      width: 100, height: 100, radius: 50)),
         ),
         Positioned(
             left: 0,

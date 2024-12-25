@@ -1,9 +1,10 @@
-
 import 'package:deliciousfood_flutter/common/network/base/client.dart';
 import 'package:deliciousfood_flutter/common/network/extension/user_client.dart';
+import 'package:deliciousfood_flutter/common/utils/utils.dart';
 import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
-import 'package:deliciousfood_flutter/views/mine/mine_filter_button.dart';
-import 'package:deliciousfood_flutter/views/recommend/widget/recommend_feedrecipe.dart';
+import 'package:deliciousfood_flutter/pages/login/login_page.dart';
+import 'package:deliciousfood_flutter/pages/mine/mine_filter_button.dart';
+import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_feedrecipe.dart';
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -26,29 +27,23 @@ class _MineIndexWidgetState extends State<MineIndexWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return model == null
-        ? const SizedBox()
-        : VisibilityDetector(
-            key: const Key('mine-widget-key'),
-            child: CustomScrollView(
-              slivers: <Widget>[
-                _topWidget(),
-                _changeListWidget(),
-                _feedRecipeSliver()
-              ],
-            ),
-            onVisibilityChanged: (info) {
-              if (info.visibleFraction == 1) {
-                _getPersonInfo();
-              }
-            },
-          );
+    return VisibilityDetector(
+      key: const Key('mine-widget-key'),
+      child: CustomScrollView(
+        slivers: <Widget>[_topWidget(), _loginWidget()],
+      ),
+      onVisibilityChanged: (info) {
+        // if (info.visibleFraction == 1) {
+        //   _getPersonInfo();
+        // }
+      },
+    );
   }
 
   @override
   void initState() {
-    _getPersonInfo();
-    _getFavList();
+    // _getPersonInfo();
+    // _getFavList();
     super.initState();
   }
 
@@ -80,7 +75,7 @@ class _MineIndexWidgetState extends State<MineIndexWidget>
   Widget _topWidget() {
     return SliverToBoxAdapter(
       child: MineIndexHeader(
-        model: model!,
+        model: model,
       ),
     );
   }
@@ -104,10 +99,51 @@ class _MineIndexWidgetState extends State<MineIndexWidget>
       itemCount: feedList?.length ?? 0,
       itemBuilder: (context, index) {
         return RecommendFeedRecipe(
-          model: feedList![index].recipe ?? feedList![index].videoRecipe!,
+          model: feedList![index],
         );
       },
     );
+  }
+
+  Widget _loginWidget() {
+    return SliverToBoxAdapter(
+        child: Padding(
+            padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("您还未登录",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 21,
+                        fontWeight: FontWeight.w700)),
+                const SizedBox(height: 6),
+                const Text("登录后可享受更多功能和福利",
+                    style: TextStyle(color: Colors.black87, fontSize: 15)),
+                const SizedBox(
+                  height: 50,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    pushToPage(context, const LoginPage());
+                  },
+                  child: Container(
+                    height: 44,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(22),
+                        color: Colors.red[400]),
+                    child: const Text(
+                      "登录美食杰",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                )
+              ],
+            )));
   }
 
   @override

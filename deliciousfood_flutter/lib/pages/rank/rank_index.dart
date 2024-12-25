@@ -2,7 +2,7 @@ import 'package:deliciousfood_flutter/common/network/base/client.dart';
 import 'package:deliciousfood_flutter/common/network/extension/home_client.dart';
 import 'package:deliciousfood_flutter/common/widgets/df_network_widget.dart';
 import 'package:deliciousfood_flutter/common/widgets/refresh_widget.dart';
-import 'package:deliciousfood_flutter/views/recommend/widget/recommend_feedrecipe.dart';
+import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_feedrecipe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -122,7 +122,7 @@ class _RankIndexWidgetState extends State<RankIndexWidget>
     }
     HomeFeedModel model = list[index - 1];
     RecommendFeedRecipe recipe = RecommendFeedRecipe(
-      model: model.type == "1" ? model.recipe! : model.videoRecipe!,
+      model: model,
       index: index,
     );
     if (index == 1) {

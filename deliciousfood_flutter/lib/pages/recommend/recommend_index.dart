@@ -4,11 +4,11 @@ import 'package:deliciousfood_flutter/common/network/extension/home_client.dart'
 import 'package:deliciousfood_flutter/common/widgets/refresh_widget.dart';
 import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_recommend_model.dart';
-import 'package:deliciousfood_flutter/views/recommend/widget/recommend_appbar.dart';
-import 'package:deliciousfood_flutter/views/recommend/widget/recommend_banner.dart';
-import 'package:deliciousfood_flutter/views/recommend/widget/recommend_feedrecipe.dart';
-import 'package:deliciousfood_flutter/views/recommend/widget/recommend_hotrecipe.dart';
-import 'package:deliciousfood_flutter/views/recommend/widget/recommend_jieqi.dart';
+import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_appbar.dart';
+import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_banner.dart';
+import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_feedrecipe.dart';
+import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_hotrecipe.dart';
+import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_jieqi.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/utils/utils.dart';
@@ -152,7 +152,7 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
       itemCount: list.length,
       itemBuilder: (context, index) {
         return RecommendFeedRecipe(
-          model: list[index].recipe!,
+          model: list[index],
         );
       },
     );
