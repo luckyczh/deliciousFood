@@ -1,3 +1,4 @@
+import 'package:deliciousfood_flutter/common/app_routes.dart';
 import 'package:deliciousfood_flutter/pages/tab_index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,15 +22,18 @@ class MyApp extends StatelessWidget {
           title: '食物杰',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+              scaffoldBackgroundColor: Colors.white,
+              primaryColor: Colors.white,
               useMaterial3: true,
               highlightColor: Colors.transparent,
               focusColor: Colors.transparent,
               splashColor: Colors.transparent,
+              hoverColor: Colors.transparent,
               appBarTheme: const AppBarTheme(
                 color: Colors.white,
               )),
           home: const TabIndexWidget(),
+          routes: routes,
         );
       },
     );

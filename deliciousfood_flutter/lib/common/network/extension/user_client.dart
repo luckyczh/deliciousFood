@@ -47,4 +47,19 @@ extension UserClient on Client {
   Future<void> deleteRecent() async {
     return fetch(Api.deleteRecent);
   }
+
+  /// 发送验证码
+  Future<void> sendMsg(String moblie) async {
+    return fetch(Api.sendMsg, parameter: {
+      "moblie": moblie,
+      "type": "6",
+      "vk": "1f9462481164aa2f2cead20c4897f815"
+    });
+  }
+
+  /// 验证码登录
+  Future<void> codeLogin(String moblie, String code) async {
+    return fetch(Api.sendMsg,
+        parameter: {"phone": moblie, "security_code": code});
+  }
 }

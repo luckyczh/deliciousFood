@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Widget netWorkImage(String? imageUrl,
     {double? height,
@@ -49,3 +50,10 @@ pushToPage(BuildContext context, Widget page) {
         builder: (context) => page,
       ));
 }
+
+showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG);
+  }

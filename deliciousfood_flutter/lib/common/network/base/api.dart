@@ -37,4 +37,10 @@ class Api {
 
   /// 删除浏览记录
   static const deleteRecent = "/recentnew/delete_recent";
+
+  /// 发送验证码
+  static const sendMsg = "/user/mobile_code";
+
+  /// 验证码登录
+  static const codeLogin = "user/login_phone";
 }

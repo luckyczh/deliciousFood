@@ -1,27 +1,34 @@
+import 'package:deliciousfood_flutter/common/network/base/api.dart';
+import 'package:deliciousfood_flutter/common/network/base/client.dart';
+import 'package:deliciousfood_flutter/common/network/extension/user_client.dart';
+import 'package:deliciousfood_flutter/common/utils/utils.dart';
+import 'package:deliciousfood_flutter/pages/login/code_page.dart';
+import 'package:deliciousfood_flutter/pages/login/login_protocol_view.dart';
+import 'package:deliciousfood_flutter/pages/mine/mine_index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginAccountView extends StatefulWidget {
-  const LoginAccountView({super.key});
+enum LoginType { code, password }
+
+class CodeLoginView extends StatefulWidget {
+  final VoidCallback tap;
+  const CodeLoginView({super.key, required this.tap});
 
   @override
-  State<LoginAccountView> createState() => _LoginAccountViewState();
+  State<CodeLoginView> createState() => _CodeLoginViewState();
 }
 
-class _LoginAccountViewState extends State<LoginAccountView> {
-  late final TextEditingController _accountEditingController;
+class _CodeLoginViewState extends State<CodeLoginView> {
+  late final _accountEditingController = TextEditingController();
+  bool isAgree = false;
   @override
   void initState() {
     super.initState();
-    _accountEditingController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _codeLoginWidget();
-  }
-
-  Widget _codeLoginWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -32,9 +39,10 @@ class _LoginAccountViewState extends State<LoginAccountView> {
             height: 60,
             child: CupertinoTextField(
               controller: _accountEditingController,
+              keyboardType: TextInputType.number,
               decoration: BoxDecoration(
                   border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
-              prefix: Text("+86"),
+              prefix: const Text("+86"),
               placeholder: "请输入手机号",
               padding: const EdgeInsets.only(left: 10),
             )),
@@ -42,7 +50,9 @@ class _LoginAccountViewState extends State<LoginAccountView> {
           height: 20,
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            sendMsg();
+          },
           style: ButtonStyle(
               backgroundColor: const WidgetStatePropertyAll(Colors.red),
               shape: WidgetStatePropertyAll(RoundedRectangleBorder(
@@ -55,10 +65,12 @@ class _LoginAccountViewState extends State<LoginAccountView> {
         Container(
           alignment: Alignment.centerLeft,
           child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                widget.tap();
+              },
               style: ButtonStyle(
                   splashFactory: NoSplash.splashFactory,
-                  minimumSize: WidgetStatePropertyAll(Size.zero),
+                  minimumSize: const WidgetStatePropertyAll(Size.zero),
                   padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(vertical: 5, horizontal: 10)),
                   backgroundColor: const WidgetStatePropertyAll(
@@ -70,8 +82,25 @@ class _LoginAccountViewState extends State<LoginAccountView> {
                 style: TextStyle(
                     color: Color.fromARGB(255, 100, 100, 100), fontSize: 12),
               )),
-        )
+        ),
+        LoginProtocolView(statusChangedCallback: (isSelected) {
+          isAgree = isSelected;
+        })
       ],
     );
+  }
+
+  void sendMsg() {
+    FocusScope.of(context).unfocus();
+    if (_accountEditingController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入手机号");
+      return;
+    }
+    if (!isAgree) {
+      Fluttertoast.showToast(msg: "请同意用户协议和额隐私政策");
+      return;
+    }
+    // client.sendMsg(_accountEditingController.text).then((_) {});
+    pushToPage(context, CodePage(moblie: _accountEditingController.text));
   }
 }
