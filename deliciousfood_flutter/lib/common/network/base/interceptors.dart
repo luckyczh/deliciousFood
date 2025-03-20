@@ -1,7 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:deliciousfood_flutter/common/Config.dart';
 import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
+import 'package:deliciousfood_flutter/common/utils/utils.dart' as Fluttertoast;
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogsInterceptors extends InterceptorsWrapper {
   @override
@@ -17,8 +19,16 @@ class LogsInterceptors extends InterceptorsWrapper {
               data: ResponseModel(
                   ResponseCode.NETWORK_LOSE, Config.noNetworkMsg))));
     }
-    options.queryParameters["format"] = "json";
-    // options.queryParameters["token"] = "cdd205ef87bb8645da268b080609399d";
+    String token = await SharedPreferencesAsync().getString("token") ?? "";
+    Map<String, dynamic> parametres = {"format": "json", "token": token};
+    parametres.addAll(options.queryParameters);
+    options.queryParameters = parametres;
     super.onRequest(options, handler);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    Fluttertoast.showToast(err.message ?? "");
+    super.onError(err, handler);
   }
 }

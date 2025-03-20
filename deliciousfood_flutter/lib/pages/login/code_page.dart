@@ -1,11 +1,14 @@
 import 'package:deliciousfood_flutter/common/network/base/client.dart';
 import 'package:deliciousfood_flutter/common/network/extension/user_client.dart';
+import 'package:deliciousfood_flutter/models/mine/login_model.dart';
 import 'package:deliciousfood_flutter/pages/login/code_login_view.dart';
 import 'package:deliciousfood_flutter/pages/mine/mine_index.dart';
 import 'package:deliciousfood_flutter/pages/rank/rank_index.dart';
+import 'package:deliciousfood_flutter/pages/tab_index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CodePage extends StatefulWidget {
   final String moblie;
@@ -59,15 +62,9 @@ class _CodePageState extends State<CodePage> {
                           Border(bottom: BorderSide(color: Colors.grey[300]!))),
                   onChanged: (value) {
                     if (value.length == 4) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const RankIndexWidget(),
-                          ));
-                      // _login(value, () {
-                      //   Navigator.pop(context);
-                      // });
+                      _login(value, () {
+                        Navigator.popUntil(context, ModalRoute.withName('/'));
+                      });
                     }
                   },
                 ),
@@ -94,8 +91,13 @@ class _CodePageState extends State<CodePage> {
         ));
   }
 
-  void _login(String code, VoidCallback completion) async {
-    await client.codeLogin(widget.moblie, code);
-    completion();
+  void _login(String code, VoidCallback completion) {
+    client.codeLogin(widget.moblie, code).then((value) {
+      if (value != null) {
+        LoginModel login = LoginModel.fromJson(value);
+        SharedPreferencesAsync().setString("token", login.accessToken);
+        completion();
+      }
+    });
   }
 }

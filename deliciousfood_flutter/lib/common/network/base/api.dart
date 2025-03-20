@@ -42,5 +42,5 @@ class Api {
   static const sendMsg = "/user/mobile_code";
 
   /// 验证码登录
-  static const codeLogin = "user/login_phone";
+  static const codeLogin = "/user/login_phone";
 }

@@ -51,7 +51,10 @@ class _CodeLoginViewState extends State<CodeLoginView> {
         ),
         TextButton(
           onPressed: () {
-            sendMsg();
+            sendMsg(() {
+              pushToPage(
+                  context, CodePage(moblie: _accountEditingController.text));
+            });
           },
           style: ButtonStyle(
               backgroundColor: const WidgetStatePropertyAll(Colors.red),
@@ -90,7 +93,7 @@ class _CodeLoginViewState extends State<CodeLoginView> {
     );
   }
 
-  void sendMsg() {
+  void sendMsg(VoidCallback completion) {
     FocusScope.of(context).unfocus();
     if (_accountEditingController.text.isEmpty) {
       Fluttertoast.showToast(msg: "请输入手机号");
@@ -100,7 +103,8 @@ class _CodeLoginViewState extends State<CodeLoginView> {
       Fluttertoast.showToast(msg: "请同意用户协议和额隐私政策");
       return;
     }
-    // client.sendMsg(_accountEditingController.text).then((_) {});
-    pushToPage(context, CodePage(moblie: _accountEditingController.text));
+    client.sendMsg(_accountEditingController.text).then((value) {
+      completion();
+    });
   }
 }

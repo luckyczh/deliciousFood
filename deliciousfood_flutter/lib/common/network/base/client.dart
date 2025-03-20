@@ -16,7 +16,7 @@ class Client {
         baseUrl: Api.baseUrl,
         headers: {
           "User-Agent":
-              "model:phone;Version:meishij8.2.5;udid:485f21f799a5699cb75bb3b182c8b5d3;free:1;sInch:{828, 1792};sversion:16.4.1;channel:appstore;idfa:"
+              "model:phone;Version:meishij8.2.8;udid:234708f5c5166fed2bcf3e60c3e9652d;free:1;sInch:{750, 1624};sversion:16.7;channel:appstore;idfa:"
         },
         connectTimeout: const Duration(minutes: 1),
         receiveTimeout: const Duration(minutes: 1),
@@ -49,7 +49,8 @@ class Client {
         try {
           data = jsonDecode(result.data);
         } catch (e) {
-          return null;
+          Fluttertoast.showToast(msg: e.toString());
+          return Future.error(e);
         }
       } else {
         data = result.data;
@@ -57,18 +58,12 @@ class Client {
       final res = ResponseModel.formJson(data);
       if (res.code != '1' && res.code != '11') {
         Fluttertoast.showToast(msg: res.msg);
+        return Future.error(res.msg);
       } else {
         return res.data;
       }
-    } on DioException catch (e) {
-      if (e.response?.data is ResponseModel) {
-        final res = e.response?.data as ResponseModel;
-        Fluttertoast.showToast(msg: res.msg);
-        return res.data;
-      } else {
-        Fluttertoast.showToast(msg: e.error.toString());
-        return null;
-      }
+    } on Exception catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 

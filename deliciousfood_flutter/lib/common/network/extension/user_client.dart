@@ -51,15 +51,15 @@ extension UserClient on Client {
   /// 发送验证码
   Future<void> sendMsg(String moblie) async {
     return fetch(Api.sendMsg, parameter: {
-      "moblie": moblie,
       "type": "6",
+      "mobile": moblie,
       "vk": "1f9462481164aa2f2cead20c4897f815"
     });
   }
 
   /// 验证码登录
-  Future<void> codeLogin(String moblie, String code) async {
-    return fetch(Api.sendMsg,
+  Future<dynamic> codeLogin(String moblie, String code) async {
+    return fetch(Api.codeLogin,
         parameter: {"phone": moblie, "security_code": code});
   }
 }

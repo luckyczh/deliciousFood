@@ -17,7 +17,7 @@ HomeFeedCaidanModel _$HomeFeedCaidanModelFromJson(Map<String, dynamic> json) =>
           : HomeRecommendVideoInfoAuthorModel.fromJson(
               json['author'] as Map<String, dynamic>),
       img: (json['img'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      randNum: json['rand_num'] as int?,
+      randNum: (json['rand_num'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$HomeFeedCaidanModelToJson(

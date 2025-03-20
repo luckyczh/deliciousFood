@@ -69,6 +69,9 @@ class _RecommendIndexWidgetState extends State<RecommendIndexWidget>
         controller?.loadNoData();
       }
       setState(() {});
+    }, onError: (e) {
+      controller?.refreshFailed();
+      controller?.loadFailed();
     });
   }
 

@@ -20,7 +20,7 @@ HomeFeedRecipeModel _$HomeFeedRecipeModelFromJson(Map<String, dynamic> json) =>
           ? null
           : HomeRecommendVideoInfoAuthorModel.fromJson(
               json['author'] as Map<String, dynamic>),
-      randNum: json['rand_num'] as int?,
+      randNum: (json['rand_num'] as num?)?.toInt(),
       label: (json['label'] as List<dynamic>?)
           ?.map((e) =>
               HomeFeedRecipeLableModel.fromJson(e as Map<String, dynamic>))

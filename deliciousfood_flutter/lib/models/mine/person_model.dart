@@ -25,12 +25,15 @@ class PersonInfoModel {
 
   String? avatar;
 
-  String fensi = '0';
+  int fensi = 0;
 
-  String follow = '0';
+  @JsonKey(name: 'if_v')
+  int ifV = 0;
 
-  PersonInfoModel(
-      this.avatar, this.fensi, this.follow, this.userId, this.userName);
+  String follow = "0";
+
+  PersonInfoModel(this.avatar, this.fensi, this.follow, this.userId,
+      this.userName, this.ifV);
 
   factory PersonInfoModel.fromJson(Map<String, dynamic> json) =>
       _$PersonInfoModelFromJson(json);
@@ -53,7 +56,7 @@ class PersonNumsModel {
   String rarticleNum = '0';
 
   @JsonKey(name: 'all_num')
-  String allNum = '0';
+  int allNum = 0;
 
   @JsonKey(name: 'message_num')
   String messageNum = '0';
@@ -62,7 +65,7 @@ class PersonNumsModel {
   String orderNum = '0';
 
   @JsonKey(name: 'works_click_num')
-  String worksClickNum = '0';
+  int worksClickNum = 0;
 
   @JsonKey(name: 'recent_num')
   String recentNum = '0';

@@ -24,10 +24,11 @@ Map<String, dynamic> _$PersonModelToJson(PersonModel instance) =>
 PersonInfoModel _$PersonInfoModelFromJson(Map<String, dynamic> json) =>
     PersonInfoModel(
       json['avatar'] as String?,
-      json['fensi'].toString(),
+      json['fensi'] as int,
       json['follow'] as String,
       json['user_id'] as String?,
       json['user_name'] as String?,
+      json['if_v'] as int,
     );
 
 Map<String, dynamic> _$PersonInfoModelToJson(PersonInfoModel instance) =>
@@ -37,11 +38,12 @@ Map<String, dynamic> _$PersonInfoModelToJson(PersonInfoModel instance) =>
       'avatar': instance.avatar,
       'fensi': instance.fensi,
       'follow': instance.follow,
+      'if_v': instance.ifV,
     };
 
 PersonNumsModel _$PersonNumsModelFromJson(Map<String, dynamic> json) =>
     PersonNumsModel(
-      json['all_num'].toString(),
+      json['all_num'] as int,
       json['message_num'] as String,
       json['order_num'] as String,
       json['article_num'] as String,
@@ -49,7 +51,7 @@ PersonNumsModel _$PersonNumsModelFromJson(Map<String, dynamic> json) =>
       json['recipe_num'] as String,
       json['talk_num'] as String,
       json['work_num'] as String,
-      json['works_click_num'].toString(),
+      json['works_click_num'] as int,
     );
 
 Map<String, dynamic> _$PersonNumsModelToJson(PersonNumsModel instance) =>
