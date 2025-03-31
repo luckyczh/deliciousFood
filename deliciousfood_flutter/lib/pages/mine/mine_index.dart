@@ -5,7 +5,9 @@ import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
 import 'package:deliciousfood_flutter/pages/login/login_page.dart';
 import 'package:deliciousfood_flutter/pages/mine/mine_filter_button.dart';
 import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_feedrecipe.dart';
+import 'package:deliciousfood_flutter/providers/login_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -25,40 +27,29 @@ class _MineIndexWidgetState extends State<MineIndexWidget>
   List<HomeFeedModel>? feedList;
   int pageIndex = 1;
 
-  bool isLogin = false;
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return VisibilityDetector(
-      key: const Key('mine-widget-key'),
-      child: CustomScrollView(
-        slivers: isLogin
-            ? [_topWidget(), _changeListWidget(), _feedRecipeSliver()]
-            : [_topWidget(), _loginWidget(context)],
-      ),
-      onVisibilityChanged: (info) {
-        if (info.visibleFraction == 1) {
-          _getLoginStates();
-        }
-      },
-    );
-  }
-
-  @override
-  void initState() {
-    _getLoginStates();
-    super.initState();
-  }
-
-  void _getLoginStates() {
-    SharedPreferencesAsync().getString("token").then((value) {
-      if (value != null) {
-        isLogin = true;
-        _getPersonInfo();
-        _getFavList();
-        setState(() {});
-      }
+    return Consumer<LoginStateProvider>(builder: (context, value, child) {
+      return VisibilityDetector(
+        key: const Key('mine-widget-key'),
+        child: CustomScrollView(
+          slivers: value.isLoggedIn
+              ? [_topWidget(), _changeListWidget(), _feedRecipeSliver()]
+              : [_topWidget(), _loginWidget(context)],
+        ),
+        onVisibilityChanged: (info) {
+          if (info.visibleFraction == 1) {
+            if (value.isLoggedIn) {
+              _getPersonInfo();
+              _getFavList();
+            } else {
+              model = null;
+              setState(() {});
+            }
+          }
+        },
+      );
     });
   }
 

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:deliciousfood_flutter/common/network/base/response_model.dart';
+import 'package:deliciousfood_flutter/common/utils/extension.dart';
+import 'package:deliciousfood_flutter/providers/login_state_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api.dart';
@@ -56,9 +59,12 @@ class Client {
         data = result.data;
       }
       final res = ResponseModel.formJson(data);
-      if (res.code != '1' && res.code != '11') {
+      if (res.code == '101') {
+        Provider.of<LoginStateProvider>(GlobalContextX.rootContext).logout();
+        return Future.error(res);
+      } else if (res.code != '1' && res.code != '11') {
         Fluttertoast.showToast(msg: res.msg);
-        return Future.error(res.msg);
+        return Future.error(res);
       } else {
         return res.data;
       }

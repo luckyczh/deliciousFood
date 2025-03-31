@@ -115,10 +115,8 @@ class _RankIndexWidgetState extends State<RankIndexWidget>
 
   Widget _buildCell(int index) {
     if (index == 0) {
-      return netWorkImage(
-          "https://st-cn.meishi.cc/p2/20230209/20230209150550_650.png",
-          width: double.infinity,
-          fit: BoxFit.fitWidth);
+      return Image.asset("resource/images/icon_rank.png",
+          width: double.infinity, fit: BoxFit.fitWidth);
     }
     HomeFeedModel model = list[index - 1];
     RecommendFeedRecipe recipe = RecommendFeedRecipe(

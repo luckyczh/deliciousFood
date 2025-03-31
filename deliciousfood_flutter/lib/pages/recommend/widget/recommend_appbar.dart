@@ -1,4 +1,4 @@
-import 'package:deliciousfood_flutter/pages/recommend/category_page.dart';
+import 'package:deliciousfood_flutter/pages/recommend/page/category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

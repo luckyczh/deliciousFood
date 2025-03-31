@@ -1,4 +1,3 @@
-
 import 'package:deliciousfood_flutter/models/category/category_model.dart';
 import 'package:deliciousfood_flutter/models/eat/eat_question_model.dart';
 import 'package:deliciousfood_flutter/models/home/home_feed_model.dart';
@@ -48,7 +47,8 @@ extension HomeClient on Client {
     final result = await fetchList(
       Api.recipeCategory,
       transform: (result) {
-        return (result as List).map((e) => CategoryModel.fromJson(e)).toList();
+        final list = (result as List).where((e) => e['id'] is String);
+        return list.map((e) => CategoryModel.fromJson(e)).toList();
       },
     );
     return result;
@@ -62,5 +62,4 @@ extension HomeClient on Client {
     }
     return (result as List).map((e) => EatQuestionModel.fromJson(e)).toList();
   }
-
 }

@@ -27,6 +27,12 @@ class LogsInterceptors extends InterceptorsWrapper {
   }
 
   @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    print(response.data);
+    super.onResponse(response, handler);
+  }
+
+  @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     Fluttertoast.showToast(err.message ?? "");
     super.onError(err, handler);

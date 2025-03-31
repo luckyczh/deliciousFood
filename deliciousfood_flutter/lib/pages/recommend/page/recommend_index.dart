@@ -11,7 +11,7 @@ import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_hotrecipe
 import 'package:deliciousfood_flutter/pages/recommend/widget/recommend_jieqi.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/utils/utils.dart';
+import '../../../common/utils/utils.dart';
 
 class RecommendIndexWidget extends StatefulWidget {
   const RecommendIndexWidget({super.key});

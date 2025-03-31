@@ -16,8 +16,9 @@ class _MineIndexHeaderState extends State<MineIndexHeader> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        netWorkImage(
-            "https://st-cn.meishi.cc/p2/20220907/20220907154552_483.jpg"),
+        Image.asset(
+          "resource/images/icon_mine_header.png",
+        ),
         Positioned(
             top: ScreenUtil().statusBarHeight,
             right: 20,

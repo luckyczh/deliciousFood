@@ -2,7 +2,7 @@ import 'package:deliciousfood_flutter/pages/eat/eat_index.dart';
 import 'package:deliciousfood_flutter/pages/login/login_page.dart';
 import 'package:deliciousfood_flutter/pages/mine/mine_index.dart';
 import 'package:deliciousfood_flutter/pages/rank/rank_index.dart';
-import 'package:deliciousfood_flutter/pages/recommend/recommend_index.dart';
+import 'package:deliciousfood_flutter/pages/recommend/page/recommend_index.dart';
 import 'package:deliciousfood_flutter/pages/tab_index.dart';
 import 'package:flutter/cupertino.dart';
 

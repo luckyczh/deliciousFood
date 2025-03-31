@@ -12,3 +12,13 @@ extension ColorExtension on String {
     return Color.fromARGB((255 * alpha).round(), r, g, b);
   }
 }
+
+extension GlobalContextX on BuildContext {
+  static BuildContext? _rootContext;
+
+  static set rootContext(BuildContext context) {
+    _rootContext = context;
+  }
+
+  static BuildContext get rootContext => _rootContext!;
+}

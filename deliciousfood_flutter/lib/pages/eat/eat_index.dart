@@ -77,10 +77,8 @@ class _EatIndexWidgetState extends State<EatIndexWidget>
 
   Widget _buildCell(int index) {
     if (index == 0) {
-      return netWorkImage(
-          "https://st-cn.meishi.cc/p2/20230209/20230209150551_581.png",
-          width: double.infinity,
-          fit: BoxFit.fitWidth);
+      return Image.asset("resource/images/icon_eat_header.png",
+          width: double.infinity, fit: BoxFit.fitWidth);
     }
     EatQuestionModel model = list[index - 1];
     Widget cell = _normalCell(model);

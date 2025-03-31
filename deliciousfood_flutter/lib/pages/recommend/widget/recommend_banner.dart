@@ -1,3 +1,4 @@
+import 'package:deliciousfood_flutter/pages/recommend/page/recommend_daily_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/utils/utils.dart';
@@ -30,9 +31,11 @@ class _RecommendBannerState extends State<RecommendBanner> {
               TextButton(
                 style: ButtonStyle(
                     splashFactory: NoSplash.splashFactory,
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
-                    padding: MaterialStateProperty.all(EdgeInsets.zero)),
-                onPressed: () {},
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
+                    padding: WidgetStateProperty.all(EdgeInsets.zero)),
+                onPressed: () {
+                  pushToPage(context, const RecommendDailyPage());
+                },
                 child: Container(
                   height: 30,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
