@@ -26,11 +26,6 @@ class _RecommendDailyPageState extends State<RecommendDailyPage> {
                     "下午茶",
                     "晚餐",
                     "夜宵",
-                    "早餐",
-                    "午餐",
-                    "下午茶",
-                    "晚餐",
-                    "夜宵"
                   ],
                 ),
                 SizedBox(
