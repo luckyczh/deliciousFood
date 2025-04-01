@@ -28,20 +28,6 @@ class _RecommendDailyPageState extends State<RecommendDailyPage> {
                     "夜宵",
                   ],
                 ),
-                SizedBox(
-                  height: 50,
-                  child: TabBar(tabs: [
-                    Tab(
-                      text: "早餐",
-                    ),
-                    Tab(
-                      text: "午餐",
-                    ),
-                    Tab(
-                      text: "晚餐",
-                    ),
-                  ]),
-                ),
                 Expanded(
                     child: TabBarView(children: [
                   Text("早餐"),

@@ -22,12 +22,13 @@ class _HorizontalWheelState extends State<HorizontalWheel> {
   @override
   void initState() {
     super.initState();
-    _virtualItemCount = widget.items.length * 2;
+    _virtualItemCount = widget.items.length * 5;
+    _selectedIndex = widget.selectedIndex;
     _scrollController = ScrollController(
-      initialScrollOffset: (widget.items.length + _selectedIndex) * _itemWidth +
-          _selectedItemWidth / 2 -
-          ScreenUtil.defaultSize.width / 2,
-    );
+        initialScrollOffset:
+            (widget.items.length * 2 + _selectedIndex) * _itemWidth -
+                ScreenUtil().screenWidth / 2 +
+                _itemWidth / 2);
     _scrollController.addListener(_onScroll);
   }
 
@@ -39,9 +40,15 @@ class _HorizontalWheelState extends State<HorizontalWheel> {
   }
 
   void _onScroll() {
-    // final centerOffset =
-    //     _scrollController.offset + (MediaQuery.of(context).size.width / 2);
-    // _selectedIndex = (centerOffset / _itemWidth).round() % widget.items.length;
+    final offset = _scrollController.offset;
+    final count = widget.items.length;
+    final disntance = ScreenUtil().screenWidth / 2 - (_itemWidth / 2);
+    final maxOffset = (count * 3) * _itemWidth - disntance;
+    final minOffset = count * _itemWidth - disntance;
+    final initialOffset = (count * 2) * _itemWidth - disntance;
+    if (offset == maxOffset || offset == minOffset) {
+      _scrollController.jumpTo(initialOffset);
+    }
     setState(() {});
   }
 
@@ -49,16 +56,15 @@ class _HorizontalWheelState extends State<HorizontalWheel> {
     final centerOffset =
         _scrollController.offset + (MediaQuery.of(context).size.width / 2);
     final distanceFromCenter =
-        (index * _itemWidth + (_selectedItemWidth / 2) - centerOffset).abs();
+        (index * _itemWidth + (_itemWidth / 2) - centerOffset).abs();
     const maxDistance = 200;
     final percent = (1 - distanceFromCenter / maxDistance).clamp(0.5, 1) + 0.3;
     return percent;
   }
 
   void _scrollToCenter(int index) {
-    final targetOffset = index * _itemWidth -
-        (MediaQuery.of(context).size.width / 2) +
-        (_selectedItemWidth / 2);
+    final targetOffset =
+        index * _itemWidth - (ScreenUtil().screenWidth / 2) + (_itemWidth / 2);
     _scrollController.animateTo(
       targetOffset,
       duration: const Duration(milliseconds: 300),
@@ -68,26 +74,26 @@ class _HorizontalWheelState extends State<HorizontalWheel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
+    return SizedBox(
+      height: 44,
       child: ListView.builder(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         itemCount: _virtualItemCount,
         itemBuilder: (context, index) {
           final realIndex = index % widget.items.length;
-          final scale = _calculateScale(index);
-          final isSelected = index == _selectedIndex;
+          final scale = 1.0; //_calculateScale(index);
+          final isSelected = _selectedIndex == realIndex;
           return GestureDetector(
             onTap: () {
-              _selectedIndex = index;
+              _selectedIndex = realIndex;
               _scrollToCenter(index);
             },
             child: Container(
-                width: isSelected ? _selectedItemWidth : _itemWidth,
+                width: _itemWidth,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.blue,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
